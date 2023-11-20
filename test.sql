@@ -27,7 +27,6 @@ CREATE TABLE Organisateurs (
 ) ENGINE = INNODB ;
 
 
-
 CREATE TABLE Participants (
     Id INT PRIMARY KEY,
     Nom VARCHAR(50),
@@ -63,6 +62,14 @@ CREATE TABLE Evenements_Sponsors (
     FOREIGN KEY (Sponsor_id) REFERENCES Sponsors(Id)
 ) ENGINE = INNODB;
 
+CREATE TABLE Retours (
+    Id INT PRIMARY KEY,
+    Montant DECIMAL(10,2),
+    Date DATE,
+    Participant_id INT,
+    Evenement_id INT,
+    FOREIGN KEY (Participant_id) REFERENCES Participants(Id),
+) ENGINE = INNODB;
 
 
 
@@ -72,11 +79,10 @@ CREATE TABLE Evenements_Sponsors (
 
 
 ------------------------
-
-INSERT INTO Organisateurs(Id, Nom, Prenom, Email, Telephone)
+INSERT INTO Lieux (id, nom, adresse, capacite)
 VALUES
-  (1, 'John', 'Doe', 'john.doe@example.com', '123-456-7890'),
-  (2, 'Alice', 'Smith', 'alice.smith@example.com', '987-654-3210');
+  (1, 'Convention Center', '123 Expo St, Cityville', 1000),
+  (2, 'Community Hall', '456 Community Ave, Townsville', 500);
 
 
 INSERT INTO Evenements (Id, Titre, Date, Lieu_id, Organisation_id)
@@ -85,16 +91,18 @@ VALUES
   (2, 'Workshop ABC', '2023-02-20', 2, 2);
 
 
-INSERT INTO Participants (Id, Nom, Prenom, Email, Telephone, Evenement_id)
+  INSERT INTO `Organisateurs`
 VALUES
-  (1, 'Mike', 'Participant', 'mike.participant@example.com', '555-1234', 1),
-  (2, 'Jane', 'Attendee', 'jane.attendee@example.com', '555-5678', 1);
+  (1, 'John', 'Doe', 'john.doe@example.com', '123-456-7890',1),
+  (2, 'Alice', 'Smith', 'alice.smith@example.com', '987-654-3210',2);
 
 
-INSERT INTO Lieux (id, nom, adresse, capacite)
+
+INSERT INTO `Participants`
 VALUES
-  (1, 'Convention Center', '123 Expo St, Cityville', 1000),
-  (2, 'Community Hall', '456 Community Ave, Townsville', 500);
+  (1, 'Mike', 'Participant', 'mike.participant@example.com', '555-1234'),
+  (2, 'Jane', 'Attendee', 'jane.attendee@example.com', '555-5678');
+
 
 
 INSERT INTO Sponsors (id, nom, logo, site_web)
@@ -103,7 +111,7 @@ VALUES
   (2, 'FoodCorp', 'foodcorp_logo.png', 'http://www.foodcorp.com');
 
 
-INSERT INTO Billets (id, prix, date_debut, date_fin, lieu_id, Evenement_id)
+INSERT INTO  `billets`
 VALUES
   (1, 50.00, '2023-01-01', '2023-01-15', 1, 1),
   (2, 25.00, '2023-02-01', '2023-02-20', 2, 2);
